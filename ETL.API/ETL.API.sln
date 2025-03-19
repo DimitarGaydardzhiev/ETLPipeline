@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETL.API", "ETL.API\ETL.API.csproj", "{DF6BA863-9C14-46AA-8EA4-67C2E2B7FAA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETL.Data", "ETL.Data\ETL.Data.csproj", "{AE64A040-47F2-4802-A1E9-4A97D3A1F7B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETL.Services", "ETL.Services\ETL.Services.csproj", "{2FE36BD0-E532-438D-91D7-C55096E8BD1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF6BA863-9C14-46AA-8EA4-67C2E2B7FAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF6BA863-9C14-46AA-8EA4-67C2E2B7FAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF6BA863-9C14-46AA-8EA4-67C2E2B7FAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF6BA863-9C14-46AA-8EA4-67C2E2B7FAA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE64A040-47F2-4802-A1E9-4A97D3A1F7B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE64A040-47F2-4802-A1E9-4A97D3A1F7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE64A040-47F2-4802-A1E9-4A97D3A1F7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE64A040-47F2-4802-A1E9-4A97D3A1F7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE36BD0-E532-438D-91D7-C55096E8BD1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE36BD0-E532-438D-91D7-C55096E8BD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE36BD0-E532-438D-91D7-C55096E8BD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE36BD0-E532-438D-91D7-C55096E8BD1F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E32CF936-5C7E-41DE-8FCA-607D13E68B2B}
+	EndGlobalSection
+EndGlobal
