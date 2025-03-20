@@ -4,11 +4,7 @@ using ETL.Data.Models;
 using ETL.Data.Repositories;
 using ETL.Services.DTOs;
 using Newtonsoft.Json;
-using System.Data;
-using System.Diagnostics.Metrics;
-using System.Formats.Asn1;
 using System.Globalization;
-using System.Reflection;
 
 namespace ETL.Services
 {
@@ -80,24 +76,7 @@ namespace ETL.Services
 
         private void SaveData(IEnumerable<Transaction> transactions)
         {
-            foreach (var transaction in transactions)
-            {
-                var curretnTransaction = new Transaction()
-                {
-                    Amount = transaction.Amount,
-                    CustomerID = transaction.CustomerID,
-                    Id = transaction.Id,
-                    TransactionDate = transaction.TransactionDate,
-                };
-
-                var existingTransaction = this.unitOfWork.TransactionRepository.GetByID(transaction.Id);
-                if (existingTransaction == null)
-                {
-                    this.unitOfWork.TransactionRepository.Add(curretnTransaction);
-                }
-            }
-
-            this.unitOfWork.SaveChanges();
+            this.unitOfWork.TransactionRepository.SaveDataUsingStoredProcedure(transactions, "TransactionType", "usp_InsertTransactions");
         }
 
         public void ClearData()

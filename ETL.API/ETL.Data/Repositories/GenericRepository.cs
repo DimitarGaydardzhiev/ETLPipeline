@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Linq.Expressions;
 
 namespace ETL.Data.Repositories
@@ -76,6 +78,35 @@ namespace ETL.Data.Repositories
         {
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
+        }
+
+        public void SaveDataUsingStoredProcedure(IEnumerable<TEntity> entities, string tableTypeName, string storedProcedureName)
+        {
+            var entityType = typeof(TEntity);
+            var dataTable = new DataTable();
+
+            foreach (var property in entityType.GetProperties())
+            {
+                dataTable.Columns.Add(property.Name, property.PropertyType);
+            }
+
+            foreach (var entity in entities)
+            {
+                var row = dataTable.NewRow();
+                foreach (var property in entityType.GetProperties())
+                {
+                    row[property.Name] = property.GetValue(entity);
+                }
+                dataTable.Rows.Add(row);
+            }
+
+            var parameter = new SqlParameter("@Entities", SqlDbType.Structured)
+            {
+                TypeName = tableTypeName,
+                Value = dataTable
+            };
+
+            context.Database.ExecuteSqlRaw($"EXEC {storedProcedureName} @Entities", parameter);
         }
     }
 }
