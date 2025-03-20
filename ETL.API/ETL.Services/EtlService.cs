@@ -1,23 +1,29 @@
-﻿using CsvHelper;
+﻿using AutoMapper;
+using CsvHelper;
 using ETL.Data.Models;
 using ETL.Data.Repositories;
+using ETL.Services.DTOs;
 using Newtonsoft.Json;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Formats.Asn1;
 using System.Globalization;
+using System.Reflection;
 
 namespace ETL.Services
 {
-    public class EtlService: IEtlService
+    public class EtlService : IEtlService
     {
         private readonly UnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public EtlService(UnitOfWork unitOfWork)
+        public EtlService(UnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
-        public void Start()
+        public IEnumerable<TransactionDto> Start()
         {
             var csvData = this.ExtractFromCSV("transactions.csv");
             var apiData = this.ExtractFromAPI("https://mockapi.com/transactions");
@@ -26,6 +32,14 @@ namespace ETL.Services
             transformedData.AddRange(this.FilterData(apiData, t => t.Amount >= 100));
 
             SaveData(transformedData);
+            var transactions = this.GetTransactions();
+            return transactions;
+        }
+
+        private IEnumerable<TransactionDto> GetTransactions()
+        {
+            var transactions = this.unitOfWork.TransactionRepository.Get(out int totalCount);
+            return mapper.Map<IEnumerable<TransactionDto>>(transactions);
         }
 
         private IEnumerable<Transaction> ExtractFromCSV(string filePath)
@@ -76,7 +90,22 @@ namespace ETL.Services
                     TransactionDate = transaction.TransactionDate,
                 };
 
-                this.unitOfWork.TransactionRepository.Add(curretnTransaction);
+                var existingTransaction = this.unitOfWork.TransactionRepository.GetByID(transaction.Id);
+                if (existingTransaction == null)
+                {
+                    this.unitOfWork.TransactionRepository.Add(curretnTransaction);
+                }
+            }
+
+            this.unitOfWork.SaveChanges();
+        }
+
+        public void ClearData()
+        {
+            var transactions = this.unitOfWork.TransactionRepository.Get(out int totalCount);
+            foreach (var transaction in transactions)
+            {
+                this.unitOfWork.TransactionRepository.Delete(transaction);
             }
 
             this.unitOfWork.SaveChanges();

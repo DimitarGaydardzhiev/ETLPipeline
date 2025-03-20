@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideToastr({
       timeOut: 3000,
-      positionClass: 'toastr-top-center',
+      positionClass: 'toast-top-center',
       preventDuplicates: true
     }),
     EtlService,

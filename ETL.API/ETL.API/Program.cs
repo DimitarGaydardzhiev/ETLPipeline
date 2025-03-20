@@ -1,6 +1,7 @@
 using ETL.Data;
 using ETL.Data.Repositories;
 using ETL.Services;
+using ETL.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -36,6 +37,7 @@ builder.Services.AddDbContext<EtlContext>(options =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEtlService, EtlService>();
+builder.Services.AddAutoMapper(typeof(TransactionMappingProfile));
 
 var app = builder.Build();
 

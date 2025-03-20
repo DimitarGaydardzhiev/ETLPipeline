@@ -1,7 +1,10 @@
-﻿namespace ETL.Services
+﻿using ETL.Services.DTOs;
+
+namespace ETL.Services
 {
     public interface IEtlService
     {
-        void Start();
+        void ClearData();
+        IEnumerable<TransactionDto> Start();
     }
 }

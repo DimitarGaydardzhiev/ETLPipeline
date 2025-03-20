@@ -17,8 +17,15 @@ namespace ETL.API.Controllers
         [HttpPost("start")]
         public IActionResult StartETL()
         {
-            this.etlService.Start();
-            return Ok("ETL Pipeline Completed");
+            var transactions = this.etlService.Start();
+            return Ok(transactions);
+        }
+
+        [HttpPost("clear")]
+        public IActionResult ClearData()
+        {
+            this.etlService.ClearData();
+            return Ok();
         }
     }
 }
